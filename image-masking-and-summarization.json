@@ -1,0 +1,303 @@
+{
+  "project": {
+    "id": "qx5bq8",
+    "name": "dcbj",
+    "creationTs": 1759058650256,
+    "lastModifiedTs": 1759060634044,
+    "userSetData": {
+      "description": "",
+      "tags": [],
+      "contactURL": "",
+      "tutorialYouTube": ""
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "input_image_btj9rw",
+        "nodeSpecId": "input_image",
+        "customData": {
+          "initialWidth": 448,
+          "initialHeight": 240,
+          "previewX": 16,
+          "previewY": 16,
+          "previewWidth": 448,
+          "previewHeight": 240
+        },
+        "uiData": {
+          "posX": 0,
+          "posY": 314.25,
+          "width": 176,
+          "height": 180,
+          "selected": true
+        },
+        "propValues": {
+          "urls": [
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic1.jpg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic2.jpeg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic3.jpg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic4.jpeg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic5.jpg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic6.jpg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic7.jpeg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic8.jpg",
+            "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic9.jpg"
+          ],
+          "gridColumnCount": "1",
+          "allowUserUpload": false,
+          "selectedImageUrl": "https://storage.googleapis.com/tfweb/visualblocks-input-images/pic6.jpg",
+          "hidePreview": false
+        }
+      },
+      {
+        "id": "preprocess_image_gl7o1l",
+        "nodeSpecId": "preprocess_image",
+        "customData": {
+          "rightOfNode": "tensor_to_depthmap_f80pwt",
+          "previewX": 16,
+          "previewY": 272,
+          "previewWidth": 320,
+          "previewHeight": 240
+        },
+        "uiData": {
+          "posX": 336,
+          "posY": 0,
+          "width": 193.2724609375,
+          "height": 324,
+          "selected": false
+        },
+        "propValues": {
+          "expandDim": false,
+          "resize": {
+            "width": 192,
+            "height": 256
+          },
+          "resize,,,width": 192,
+          "resize,,,height": 256,
+          "normalize": {
+            "fromMin": 0,
+            "fromMax": 255,
+            "toMin": 1,
+            "toMax": 0
+          },
+          "normalize,,,fromMin": 0,
+          "normalize,,,fromMax": 255,
+          "normalize,,,toMin": 1,
+          "normalize,,,toMax": 0,
+          "rotate": "90"
+        },
+        "incomingEdges": {
+          "image": [
+            {
+              "sourceNodeId": "input_image_btj9rw",
+              "outputId": "image"
+            }
+          ]
+        }
+      },
+      {
+        "id": "threed_photo_skix3b",
+        "nodeSpecId": "threed_photo",
+        "customData": {
+          "initialWidth": 240,
+          "initialHeight": 320,
+          "previewX": 480,
+          "previewY": 16,
+          "previewWidth": 240,
+          "previewHeight": 320
+        },
+        "uiData": {
+          "posX": 689.2724609375,
+          "posY": 158.5,
+          "width": 176,
+          "height": 205,
+          "selected": false
+        },
+        "propValues": {
+          "cameraSpeed": 0.5,
+          "cameraRadius": 0.9384615384615385,
+          "cameraZ": 15,
+          "hidePreview": false
+        },
+        "incomingEdges": {
+          "image": [
+            {
+              "sourceNodeId": "input_image_btj9rw",
+              "outputId": "image"
+            }
+          ],
+          "depthMapTensor": [
+            {
+              "sourceNodeId": "preprocess_image_gl7o1l",
+              "outputId": "tensor"
+            }
+          ]
+        }
+      },
+      {
+        "id": "body_segmentation_ftwb4m",
+        "nodeSpecId": "body_segmentation",
+        "customData": {
+          "previewX": 752,
+          "previewY": 16,
+          "previewWidth": 320,
+          "previewHeight": 240
+        },
+        "uiData": {
+          "posX": 339.710205078125,
+          "posY": 396,
+          "width": 185.85205078125,
+          "height": 105,
+          "selected": false
+        },
+        "propValues": {
+          "modelOption": "MediaPipeSelfieSegmentation"
+        },
+        "incomingEdges": {
+          "image": [
+            {
+              "sourceNodeId": "input_image_btj9rw",
+              "outputId": "image"
+            }
+          ]
+        }
+      },
+      {
+        "id": "gemini-model_wtlnsl",
+        "source": {
+          "url": "https://storage.googleapis.com/tfweb/visualblocks-github-bundles/@visualblocks/gemini@latest/dist/bundle.js"
+        },
+        "nodeSpecId": "gemini-model",
+        "customData": {
+          "rightOfNode": "mask_visualizer_ssitpy",
+          "previewX": 16,
+          "previewY": 272,
+          "previewWidth": 320,
+          "previewHeight": 240
+        },
+        "uiData": {
+          "posX": 1025.2724609375,
+          "posY": 542,
+          "width": 214.1435546875,
+          "height": 143,
+          "selected": false
+        },
+        "inputValues": {
+          "prompt": [],
+          "modelId": "gemini-2.5-flash-preview-05-20"
+        },
+        "incomingEdges": {
+          "prompt": [
+            {
+              "sourceNodeId": "mask_visualizer_ssitpy",
+              "outputId": "maskedImage"
+            },
+            {
+              "sourceNodeId": "input_text_ox3h4s",
+              "outputId": "text"
+            }
+          ]
+        }
+      },
+      {
+        "id": "markdown_viewer_9665hf",
+        "nodeSpecId": "markdown_viewer",
+        "customData": {
+          "rightOfNode": "gemini-model_wtlnsl",
+          "previewX": 16,
+          "previewY": 272,
+          "previewWidth": 320,
+          "previewHeight": 240
+        },
+        "uiData": {
+          "posX": 1399.416015625,
+          "posY": 548.5,
+          "width": 176,
+          "height": 130,
+          "selected": false
+        },
+        "propValues": {
+          "hidePreview": false,
+          "hidePreviewFrame": false
+        },
+        "inputValues": {
+          "markdownString": ""
+        },
+        "incomingEdges": {
+          "markdownString": [
+            {
+              "sourceNodeId": "gemini-model_wtlnsl",
+              "outputId": "response"
+            }
+          ]
+        }
+      },
+      {
+        "id": "mask_visualizer_ssitpy",
+        "nodeSpecId": "mask_visualizer",
+        "customData": {
+          "rightOfNode": "body_segmentation_ftwb4m",
+          "previewX": 736,
+          "previewY": 16,
+          "previewWidth": 320,
+          "previewHeight": 240
+        },
+        "uiData": {
+          "posX": 689.2724609375,
+          "posY": 428.75,
+          "width": 176,
+          "height": 179,
+          "selected": false
+        },
+        "propValues": {
+          "mode": "fg-image",
+          "hidePreview": false
+        },
+        "inputValues": {
+          "color": "#22e8dd"
+        },
+        "incomingEdges": {
+          "image": [
+            {
+              "sourceNodeId": "input_image_btj9rw",
+              "outputId": "image"
+            }
+          ],
+          "segmentationResult": [
+            {
+              "sourceNodeId": "body_segmentation_ftwb4m",
+              "outputId": "segmentationResult"
+            }
+          ]
+        }
+      },
+      {
+        "id": "input_text_ox3h4s",
+        "nodeSpecId": "input_text",
+        "customData": {
+          "initialWidth": 304,
+          "initialHeight": 144,
+          "previewX": 736,
+          "previewY": 272,
+          "previewWidth": 304,
+          "previewHeight": 144
+        },
+        "uiData": {
+          "posX": 689.2724609375,
+          "posY": 643.75,
+          "width": 176,
+          "height": 130,
+          "selected": false
+        },
+        "propValues": {
+          "text": "summarize what you can see in this image?",
+          "passwordMode": false,
+          "hidePreview": false
+        }
+      }
+    ]
+  },
+  "customNodeUrls": [
+    "https://storage.googleapis.com/tfweb/visualblocks-github-bundles/@visualblocks/gemini@latest/dist/bundle.js"
+  ]
+}
